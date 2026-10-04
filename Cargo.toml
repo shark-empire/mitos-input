@@ -1,0 +1,28 @@
+[package]
+name = "mitos-input"
+version = "0.1.0"
+edition = "2021"
+description = "Input device management subsystem for the MITOS desktop environment: keyboards, pointers, touch, tablets, gamepads, evdev/uinput backends, Bluetooth HID bridging, hotkeys, gestures, seat management, and IPC."
+license = "MIT OR Apache-2.0"
+authors = ["MITOS Project"]
+repository = "https://github.com/mitos-project/mitos-input"
+readme = "README.md"
+
+# Cargo auto-detects src/lib.rs as the library target ("mitos_input") and
+# src/main.rs as the binary target ("mitos-input") -- no [lib]/[[bin]]
+# sections needed.
+
+[dependencies]
+# The only external dependency in the whole crate. Everything else (error
+# handling, flags, IPC framing, event bus) is hand-rolled on top of `std` so
+# the crate has a minimal, auditable dependency surface -- appropriate for a
+# privileged, always-running input daemon.
+libc = "0.2"
+
+[profile.release]
+opt-level = 3
+lto = true
+panic = "unwind"
+
+[profile.dev]
+panic = "unwind"
